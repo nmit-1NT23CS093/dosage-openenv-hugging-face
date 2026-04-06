@@ -1,0 +1,11 @@
+name: dosage-env
+description: Drug dosage recommendation environment
+
+observation_space: Observation
+action_space: Action
+reward: Reward
+
+tasks:
+  - easy
+  - medium
+  - hard
