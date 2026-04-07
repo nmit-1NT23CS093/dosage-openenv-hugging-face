@@ -1,9 +1,6 @@
-name: dosage-env
+name: drug-dosage-env
 description: Drug dosage recommendation environment
-
-observation_space: Observation
-action_space: Action
-reward: Reward
+version: 1.0
 
 tasks:
   - easy

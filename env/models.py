@@ -1,18 +1,19 @@
 from pydantic import BaseModel
 from typing import List
 
+# Observation: what the agent sees
 class Observation(BaseModel):
-    age: int
-    weight: float
-    condition: str
-    creatinine_level: float
-    allergies: List[str]
-    current_medications: List[str]
-
-class Action(BaseModel):
+    patient_age: int
+    weight: int
     drug: str
-    dosage_mg: float
-    frequency: str
+    recommended_dose: float  # keep 0.0 (hidden from agent)
 
+
+# Action: what the agent predicts
+class Action(BaseModel):
+    predicted_dose: float
+
+
+# Reward: score given by environment
 class Reward(BaseModel):
     score: float
