@@ -7,7 +7,6 @@ class DosageEnv:
         self.done = False
 
     def reset(self):
-        """Initialize a new patient case"""
         self.done = False
         self.state_data = {
             "patient_age": random.randint(1, 80),
@@ -17,7 +16,6 @@ class DosageEnv:
         return self.state()
 
     def state(self):
-        """Return current observation"""
         return Observation(
             patient_age=self.state_data["patient_age"],
             weight=self.state_data["weight"],
@@ -26,29 +24,17 @@ class DosageEnv:
         )
 
     def step(self, action: Action):
-        """Agent predicts dose → environment gives reward"""
-
         if self.done:
-            return self.state(), Reward(score=0.0), True, {"error": "Episode already done"}
+            return self.state(), Reward(score=0.0), True, {}
 
-        # Simple dosage logic
         if self.state_data["drug"] == "paracetamol":
             correct_dose = self.state_data["weight"] * 10
         else:
             correct_dose = self.state_data["weight"] * 5
 
-        predicted = action.predicted_dose
-
-        # Calculate error
-        error = abs(correct_dose - predicted)
-
-        # Reward shaping (0 to 1)
+        error = abs(correct_dose - action.predicted_dose)
         reward_score = max(0.0, 1 - (error / correct_dose))
 
         self.done = True
 
-        return self.state(), Reward(score=reward_score), True, {
-            "correct_dose": correct_dose,
-            "predicted_dose": predicted,
-            "error": error
-        }
+        return self.state(), Reward(score=reward_score), True, {}
